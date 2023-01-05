@@ -11,9 +11,9 @@ const {
   updatePassword,
 } = require("../controllers/authController");
 
-// STATIC ROUTES
-
 //AUTH ROUTES
+router.route("/register").post(register);
+router.route("/login").post(login);
 
 //ADMIN ROUTES
 
