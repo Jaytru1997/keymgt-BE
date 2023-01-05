@@ -7,7 +7,6 @@ const User = require("../models/userModel");
 const { sendEmail } = require("../services/email");
 const { asyncWrapper } = require("../utilities/async");
 const AppError = require("../utilities/appError");
-// const Settings = require("../models/admin/settingsModel");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -50,13 +49,17 @@ exports.register = asyncWrapper(async (req, res, next) => {
   try {
     const user = await User.create({
       email: req.body.email,
+      username: req.body.username,
+      role: req.body.role,
       password: req.body.password,
       conpassword: req.body.conpassword,
     });
     await sendEmail(options);
 
     createSendToken(user, 201, res);
-    res.render("components/success", { success: { ...options } });
+    res.json({
+      user,
+    });
     // return next(options);
   } catch (err) {
     console.log(err);
@@ -68,25 +71,23 @@ exports.register = asyncWrapper(async (req, res, next) => {
 });
 
 exports.login = asyncWrapper(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  if (!email || !password) {
-    return next(new AppError("Please provide email and password!", 400));
+  if (!username || !password) {
+    return next(new AppError("Please provide username and password!", 400));
   }
 
-  const user = await User.findOne({ email }).select("+password");
+  const user = await User.findOne({ username }).select("+password");
 
   if (!user || !(await user.matchPassword(password, user.password))) {
-    return next(new AppError("Invalid email or password!", 401));
+    return next(new AppError("Invalid username or password!", 401));
   }
 
   // const token = signToken(user._id);
 
   createSendToken(user, 200, res);
 
-  // res.redirect(`${user.role}/index`)
-
-  res.redirect("/auth/dashboard");
+  res.json({ user });
 });
 
 exports.protect = asyncWrapper(async (req, res, next) => {
@@ -105,12 +106,10 @@ exports.protect = asyncWrapper(async (req, res, next) => {
 
   if (!token) {
     // return next(new AppError("You are not logged in!", 401));
-    res.render("components/error", {
+    res.json({
       error: {
         code: 401,
         message: "Sorry, you are not logged in",
-        cta: "Go to log in page",
-        link: "/login",
       },
     });
   }
@@ -147,8 +146,11 @@ exports.restrictTo = (...roles) => {
   };
 };
 
-exports.restrictUser = (req, res, next) => {
-  if (req.user.role === "user" && req.user._id.toString() !== req.params.id) {
+exports.restrictUser = (categories, req, res, next) => {
+  if (
+    categories.includes(req.user.role) &&
+    req.user._id.toString() !== req.params.id
+  ) {
     return next(
       new AppError("You do not have permission to perform this action!", 403)
     );

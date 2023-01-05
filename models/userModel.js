@@ -7,14 +7,12 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
-    enum: ["user", "admin"],
-    default: "user",
+    enum: ["lp", "assoc", "admin", "gh", "dh", "sta"],
   },
-  status: {
+  username: {
     type: String,
-    required: true,
-    enum: ["approved", "suspended", "pending"],
-    default: "pending",
+    unique: true,
+    required: [true, "Please provide a username"],
   },
   email: {
     type: String,
@@ -43,6 +41,12 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
+  reports: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Report",
+    },
+  ],
 });
 
 userSchema.pre("save", async function (next) {
@@ -62,26 +66,7 @@ userSchema.pre("save", function (next) {
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
-
-// userSchema.pre("save", async function (next) {
-//   const wallets = await Wallets.find();
-//   if (wallets.length === 0) {
-//     next();
-//   }
-//   if (this.isNew) {
-//     wallets.forEach((wallet) => {
-//       this.wallets.push({
-//         coinWalletName: wallet.name,
-//         coinWalletAddress: wallet.address,
-//         coinWalletSymbol: wallet.symbol,
-//         balance: this.isNew ? 0 : this.wallets.balance,
-//       });
-//     });
-//   }
-//   next();
-// });
-
-//instance method is used for all instances of the model
+5; //instance method is used for all instances of the model
 userSchema.methods.matchPassword = async function (
   enteredPassword,
   userPassword
@@ -117,10 +102,9 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken; //send to user
 };
 
-
 userSchema.methods.filterArray = async function (array, object, key) {
   let newArray = array.filter((el) => el[key] !== object[key]);
-  console.log(array, newArray);
+  // console.log(array, newArray);
   return newArray;
 };
 
