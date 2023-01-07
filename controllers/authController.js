@@ -171,17 +171,19 @@ exports.forgotPassword = asyncWrapper(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   //send it to user's email
-  const resetURL = `https://${req.get("host")}/resetpassword/${resetToken}`;
+  const message = `Copy this token to change your password: ${resetToken}`;
   try {
-    // await sendEmail({
-    //   email: user.email,
-    //   subject: "Your password reset token (valid for 10 minutes)",
-    //   message,
-    // });
+    await sendEmail({
+      title: "Password Reset",
+      email: req.body.email,
+      subject: "Your password reset token (valid for 10 minutes)",
+      cta: "Reset Password",
+      ctaLink: "#",
+      message,
+    });
 
     res.status(200).json({
       status: "success",
-      data: { resetURL },
     });
   } catch (err) {
     user.passwordResetToken = undefined;
@@ -199,7 +201,7 @@ exports.resetPassword = asyncWrapper(async (req, res, next) => {
   //get user based on the token
   const hashedToken = crypto
     .createHash("sha256")
-    .update(req.params.token)
+    .update(req.body.token)
     .digest("hex");
 
   const user = await User.findOne({
