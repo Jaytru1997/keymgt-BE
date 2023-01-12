@@ -21,7 +21,7 @@ const reportSchema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: [true, "Please provide an author name for this report"],
+    required: [true, "Please provide an author for this report"],
   },
 });
 

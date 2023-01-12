@@ -23,7 +23,7 @@ const serviceSchema = new mongoose.Schema({
   },
   time: {
     type: String,
-    required: [true, "Please provide a valid time e.g 12:00 PM"],
+    required: [true, "Please provide a valid service time e.g 12:00 PM"],
   },
 });
 

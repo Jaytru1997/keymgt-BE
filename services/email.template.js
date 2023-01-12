@@ -1,5 +1,5 @@
 exports.template = (options) => {
-    return `<body topmargin="0" rightmargin="0" bottommargin="0" leftmargin="0" marginwidth="0" marginheight="0" width="100%" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%; height: 100%; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; line-height: 100%;
+  return `<body topmargin="0" rightmargin="0" bottommargin="0" leftmargin="0" marginwidth="0" marginheight="0" width="100%" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; width: 100%; height: 100%; -webkit-font-smoothing: antialiased; text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; line-height: 100%;
         background-color: #F0F0F0;
         color: #000000;" bgcolor="#F0F0F0" text="#000000">
     
@@ -119,8 +119,8 @@ exports.template = (options) => {
                         <tr>
                             <td align="center" valign="top" style="border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0;
                 padding-top: 20px;" class="hero"><a target="_blank" style="text-decoration: none;"
-                                    href="https://keynigeria.org"><img border="0" vspace="0" hspace="0"
-                                        src="https://keynigeria.org/images/online.png"
+                                    href="https://twn.church"><img border="0" vspace="0" hspace="0"
+                                        src="https://twn.church/images/online.png"
                                         alt="Please enable images to view this content" title="Hero Image" width="100%"
                                         style="
                 width: 100%;
@@ -183,8 +183,8 @@ exports.template = (options) => {
                 padding-bottom: 25px;
                 color: #000000;
                 font-family: sans-serif;" class="paragraph">
-                                Have a&nbsp;question? <a href="mailto:support@keynigeria.org" target="_blank"
-                                    style="color: #127DB3; font-family: sans-serif; font-size: 17px; font-weight: 400; line-height: 160%;">support@keynigeria.org</a>
+                                Have a&nbsp;question? <a href="mailto:support@twn.church" target="_blank"
+                                    style="color: #127DB3; font-family: sans-serif; font-size: 17px; font-weight: 400; line-height: 160%;">support@twn.church</a>
                             </td>
                         </tr>
     
@@ -212,7 +212,7 @@ exports.template = (options) => {
                                                 href="https://www.facebook.com/KeyNigeria"
                                                 style="text-decoration: none;"><img border="0" vspace="0" hspace="0" style="padding: 0; margin: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: inline-block;
                         color: #000000;" alt="F" title="Facebook" width="44" height="44"
-                                                    src="https://keynigeria.org/icons/fb_blue.png"></a>
+                                                    src="https://twn.church/icons/fb_blue.png"></a>
                                         </td>
     
                                         <!-- ICON 2 -->
@@ -222,17 +222,17 @@ exports.template = (options) => {
                                                 href="https://twitter.com/KeyNigeria"
                                                 style="text-decoration: none;"><img border="0" vspace="0" hspace="0" style="padding: 0; margin: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: inline-block;
                         color: #000000;" alt="T" title="Twitter" width="44" height="44"
-                                                    src="https://keynigeria.org/icons/twitter_blue.png"></a>
+                                                    src="https://twn.church/icons/twitter_blue.png"></a>
                                         </td>
     
                                         <!-- ICON 3 -->
                                         <td align="center" valign="middle"
                                             style="margin: 0; padding: 0; padding-left: 10px; padding-right: 10px; border-collapse: collapse; border-spacing: 0;">
                                             <a target="_blank"
-                                                href="https://keynigeria.org"
+                                                href="https://twn.church"
                                                 style="text-decoration: none;"><img border="0" vspace="0" hspace="0" style="padding: 0; margin: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: inline-block;
                         color: #000000;" alt="G" title="Website" width="44" height="44"
-                                                    src="https://keynigeria.org/icons/web_blue.png"></a>
+                                                    src="https://twn.church/icons/web_blue.png"></a>
                                         </td>
     
                                         <!-- ICON 4 -->
@@ -242,7 +242,7 @@ exports.template = (options) => {
                                                 href="https://instagram.com/keynigeria"
                                                 style="text-decoration: none;"><img border="0" vspace="0" hspace="0" style="padding: 0; margin: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none; display: inline-block;
                         color: #000000;" alt="I" title="Instagram" width="44" height="44"
-                                                    src="https://keynigeria.org/icons/IG_blue.png"></a>
+                                                    src="https://twn.church/icons/IG_blue.png"></a>
                                         </td>
     
                                     </tr>
@@ -275,5 +275,5 @@ exports.template = (options) => {
         </table>
     
     </body>
-    `
-}
+    `;
+};

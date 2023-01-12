@@ -21,6 +21,12 @@ const userSchema = new mongoose.Schema({
     trim: true,
     validate: [validator.isEmail, "Please provide a valid email"],
   },
+  department: {
+    type: String,
+  },
+  group: {
+    type: String,
+  },
   password: {
     type: String,
     required: [true, "Please provide a password"],

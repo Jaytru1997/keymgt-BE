@@ -4,6 +4,6 @@
 
 ## Kingdom Envoy International Church is a 21st Century Church with  Corporate Face
 
-[Kingdom Envoy Website](https://keynigeria.org)
+[Kingdom Envoy Website](https://twn.church)
 
-[Email](mailto://info@keynigeria.org)
+[Email](mailto://info@twn.church)

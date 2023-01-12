@@ -7,12 +7,24 @@ const workforceSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter a valid phone number"],
   },
+  title: {
+    type: String,
+    required: [true, "Please select a status for this workforce member"],
+    enum: ["Pst.", "Mr.", "Mrs.", "Master", "Ms.", "Dr.", "Min."],
+  },
   email: {
     type: String,
     required: true,
     unique: true,
     trim: true,
     validate: [validator.isEmail, "Please provide a valid email"],
+  },
+  dob: {
+    type: Date,
+    required: [
+      true,
+      "Please provide the date of birth of this workforce member",
+    ],
   },
   firstName: {
     type: String,
@@ -55,6 +67,37 @@ const workforceSchema = new mongoose.Schema({
     end: Date,
     duration: Number,
   },
+  services: [
+    {
+      title: {
+        type: String,
+        required: [
+          true,
+          "Please provide a title for your service e.g Empowerment",
+        ],
+      },
+      date: {
+        type: Date,
+      },
+      day: {
+        type: String,
+        enum: [
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday",
+          "saturday",
+          "sunday",
+        ],
+        required: [true, "Please provide a day for your service"],
+      },
+      time: {
+        type: String,
+        required: [true, "Please provide a valid time e.g 12:00 PM"],
+      },
+    },
+  ],
   serviceCount: Number,
 });
 
