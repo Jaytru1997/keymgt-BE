@@ -29,7 +29,11 @@ const createSendToken = (user, statusCode, res) => {
 
   user.password = undefined;
 
-  res.status(statusCode);
+  res.status(statusCode).json({
+    status: "success",
+    token,
+    data: user,
+  });
 };
 
 exports.register = asyncWrapper(async (req, res, next) => {
@@ -51,6 +55,8 @@ exports.register = asyncWrapper(async (req, res, next) => {
       email: req.body.email,
       username: req.body.username,
       role: req.body.role,
+      group: req.body.group,
+      department: req.body.department,
       password: req.body.password,
       conpassword: req.body.conpassword,
     });
@@ -83,11 +89,14 @@ exports.login = asyncWrapper(async (req, res, next) => {
     return next(new AppError("Invalid username or password!", 401));
   }
 
+  createSendToken(user, 200, res);
   // const token = signToken(user._id);
 
-  createSendToken(user, 200, res);
-
-  res.json({ user });
+  // res.status(200).json({
+  //   status: "success",
+  //   token,
+  //   data: user,
+  // });
 });
 
 exports.protect = asyncWrapper(async (req, res, next) => {

@@ -2,7 +2,7 @@ const multer = require("multer");
 
 // var upload = multer({ dest: "Upload_folder_name" })
 
-exports.upload = function () {
+exports.uploader = function () {
   var storage = multer.diskStorage({
     destination: function (req, file, cb) {
       // Uploads is the Upload_folder_name
