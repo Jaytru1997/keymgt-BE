@@ -47,12 +47,6 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
-  reports: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Report",
-    },
-  ],
 });
 
 userSchema.pre("save", async function (next) {

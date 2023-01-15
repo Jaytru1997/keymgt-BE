@@ -6,7 +6,7 @@ const issueSchema = new mongoose.Schema({
     enum: ["Absent", "Late", "Quarrel"],
     require: [true, "Please provide a name for this ticket"],
   },
-  date: Date,
+  date: String,
   fee: Number,
   status: {
     type: String,

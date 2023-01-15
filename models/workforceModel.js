@@ -70,44 +70,22 @@ const workforceSchema = new mongoose.Schema({
     end: Date,
     duration: Number,
   },
-  services: [
-    // {
-    //   title: {
-    //     type: String,
-    //     required: [
-    //       true,
-    //       "Please provide a title for your service e.g Empowerment",
-    //     ],
-    //   },
-    //   date: {
-    //     type: Date,
-    //   },
-    //   day: {
-    //     type: String,
-    //     enum: [
-    //       "monday",
-    //       "tuesday",
-    //       "wednesday",
-    //       "thursday",
-    //       "friday",
-    //       "saturday",
-    //       "sunday",
-    //     ],
-    //     required: [true, "Please provide a day for your service"],
-    //   },
-    //   time: {
-    //     type: String,
-    //     required: [true, "Please provide a valid time e.g 12:00 PM"],
-    //   },
-    // },
-  ],
-  serviceCount: Number,
+  services: {
+    count: Number,
+    attendance: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Attendance",
+      },
+    ],
+  },
 });
 
 workforceSchema.pre("save", function (next) {
   let initials;
   if (this.heirarchy === "Group H") this.department = "all";
-  this.serviceCount = 0;
+  this.services.count = 0;
+  this.tickets.count = 0;
   this.middleName !== ""
     ? (initials = `${this.middleName.charAt(0)}.`)
     : (initials = "");

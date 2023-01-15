@@ -23,6 +23,10 @@ const reportSchema = new mongoose.Schema({
     ref: "User",
     required: [true, "Please provide an author for this report"],
   },
+  service: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Service",
+  },
 });
 
 reportSchema.pre("save", function (next) {

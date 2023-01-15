@@ -11,7 +11,12 @@ const attendanceSchema = new mongoose.Schema({
       ref: "Workforce",
     },
   ],
-  absent: [],
+  absent: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Workforce",
+    },
+  ],
 });
 
 const Attendance = mongoose.model("Attendance", attendanceSchema);

@@ -25,6 +25,12 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide a valid service time e.g 12:00 PM"],
   },
+  reports: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Report",
+    },
+  ],
 });
 
 serviceSchema.pre("save", function (next) {
