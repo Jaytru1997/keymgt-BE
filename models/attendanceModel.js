@@ -7,8 +7,11 @@ const attendanceSchema = new mongoose.Schema({
   },
   present: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Workforce",
+      person: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Workforce",
+      },
+      time: Date,
     },
   ],
   absent: [
