@@ -4,6 +4,8 @@ const attendanceSchema = new mongoose.Schema({
   service: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Service",
+    unique: true,
+    required: [true, "Create a service first before making an attendance"],
   },
   present: [
     {

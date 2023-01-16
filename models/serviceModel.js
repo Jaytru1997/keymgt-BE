@@ -42,6 +42,11 @@ const serviceSchema = new mongoose.Schema({
 //   next();
 // });
 
+serviceSchema.methods.addAttendance = async function (id) {
+  this.attendance = await id;
+  this.save({ validateBeforeSave: false });
+};
+
 const Service = mongoose.model("Service", serviceSchema);
 
 module.exports = Service;

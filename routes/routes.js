@@ -30,6 +30,8 @@ const {
   getServicesByFilter,
 } = require("../controllers/serviceController");
 
+const { addAttendance } = require("../controllers/attendanceController");
+
 //AUTH ROUTES
 router.route("/register").post(register);
 router.route("/login").post(login);
@@ -60,6 +62,9 @@ router
   .get(protect, getService)
   .patch(protect, editService)
   .delete(protect);
+
+//ATTENDANCE
+router.route("/attendances").get(protect).post(protect, addAttendance);
 
 //ISSUE
 router.route("/issues").get().post();
