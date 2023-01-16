@@ -1,6 +1,7 @@
 const Workforce = require("../models/workforceModel");
 const { asyncWrapper } = require("../utilities/async");
 const AppError = require("../utilities/appError");
+const { createRes } = require("../utilities/responses");
 
 exports.addWorkforce = asyncWrapper(async (req, res, next) => {
   const workforce = await Workforce.create({
@@ -16,9 +17,7 @@ exports.addWorkforce = asyncWrapper(async (req, res, next) => {
     heirarchy: req.body.heirarchy,
   });
   if (!workforce) {
-    res.status(400).json({
-      message: "Workforce member could not be added",
-    });
+    return next(new AppError("Workforce member could not be added", 404));
   }
   res.status(201).json({
     status: "success",
@@ -32,15 +31,50 @@ exports.addWorkforceImage = asyncWrapper(async (req, res, next) => {
   const image = `https://${req.get("host")}/${req.file.path}`;
   const workforce = await Workforce.findById(id).exec();
   if (!workforce) {
-    return res.status(404).json({
-      message: "Workforce member not found",
-    });
+    return next(new AppError("Workforce member not found", 404));
   } else {
     const upload = await workforce.addImage(image);
+    await workforce.save({ validateBeforeSave: false });
     if (upload) {
       return res.status(200).json({
         path: image,
       });
     }
+  }
+});
+
+exports.getWorkforce = asyncWrapper(async (req, res, next) => {
+  const id = req.params.id;
+  // console.log(id);
+  const workforce = await Workforce.findById(id).exec();
+  if (!workforce) {
+    return next(new AppError("Workforce member not found", 404));
+  } else {
+    res.status(200).json({ workforce });
+  }
+});
+
+exports.getAllWorkforce = asyncWrapper(async (req, res, next) => {
+  const workforce = await Workforce.find();
+  if (!workforce) {
+    return next(new AppError("Workforce members not found", 404));
+  }
+  createRes(workforce, 200, res);
+});
+
+exports.getWorkforceByFilter = asyncWrapper(async (req, res, next) => {
+  const filter = req.params.filter;
+  const workforce = await Workforce.find({
+    $or: [
+      { group: filter },
+      { department: filter },
+      { heirarchy: filter },
+      { title: filter },
+    ],
+  });
+  if (!workforce) {
+    return next(new AppError("Workforce members not found", 404));
+  } else {
+    res.status(200).json({ workforce });
   }
 });
