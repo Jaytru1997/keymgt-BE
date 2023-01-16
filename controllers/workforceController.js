@@ -68,6 +68,8 @@ exports.getWorkforceByFilter = asyncWrapper(async (req, res, next) => {
   });
   if (!workforce) {
     return next(new AppError("Workforce members not found", 404));
+  } else if (workforce.length === 0) {
+    return next(new AppError("No workforce member matches your search", 404));
   } else {
     createRes(workforce, 200, res);
   }

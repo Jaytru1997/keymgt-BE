@@ -22,6 +22,13 @@ const attendanceSchema = new mongoose.Schema({
   ],
 });
 
+attendanceSchema.pre("save", async function (next) {
+  this.present.forEach((entry) => {
+    entry.time = Date.now() - 1000;
+  });
+  next();
+});
+
 const Attendance = mongoose.model("Attendance", attendanceSchema);
 
 module.exports = Attendance;

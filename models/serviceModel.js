@@ -31,12 +31,16 @@ const serviceSchema = new mongoose.Schema({
       ref: "Report",
     },
   ],
+  attendance: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Attendance",
+  },
 });
 
-serviceSchema.pre("save", function (next) {
-  this.time = Date.now() - 1000;
-  next();
-});
+// serviceSchema.pre("save", function (next) {
+//   this.time = Date.now() - 1000;
+//   next();
+// });
 
 const Service = mongoose.model("Service", serviceSchema);
 

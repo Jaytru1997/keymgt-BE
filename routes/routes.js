@@ -22,6 +22,14 @@ const {
   deleteWorkforce,
 } = require("../controllers/workforceController");
 
+const {
+  addService,
+  editService,
+  getService,
+  getAllServices,
+  getServicesByFilter,
+} = require("../controllers/serviceController");
+
 //AUTH ROUTES
 router.route("/register").post(register);
 router.route("/login").post(login);
@@ -42,8 +50,16 @@ router
   .delete(protect, restrictTo(["lp", "assoc"]), deleteWorkforce);
 
 //SERVICE
-router.route("/services").get().post();
-router.route("/service/:id").get().patch().delete();
+router
+  .route("/services")
+  .get(protect, getAllServices)
+  .post(protect, addService);
+router.route("/services/:filter").get(protect, getServicesByFilter);
+router
+  .route("/service/:id")
+  .get(protect, getService)
+  .patch(protect, editService)
+  .delete(protect);
 
 //ISSUE
 router.route("/issues").get().post();
