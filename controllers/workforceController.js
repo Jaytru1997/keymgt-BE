@@ -19,11 +19,7 @@ exports.addWorkforce = asyncWrapper(async (req, res, next) => {
   if (!workforce) {
     return next(new AppError("Workforce member could not be added", 404));
   }
-  res.status(201).json({
-    status: "success",
-    data: { workforce },
-  });
-  next();
+  createRes(workforce, 201, res);
 });
 
 exports.addWorkforceImage = asyncWrapper(async (req, res, next) => {
@@ -36,9 +32,7 @@ exports.addWorkforceImage = asyncWrapper(async (req, res, next) => {
     const upload = await workforce.addImage(image);
     await workforce.save({ validateBeforeSave: false });
     if (upload) {
-      return res.status(200).json({
-        path: image,
-      });
+      createRes(image, 200, res);
     }
   }
 });
@@ -50,7 +44,7 @@ exports.getWorkforce = asyncWrapper(async (req, res, next) => {
   if (!workforce) {
     return next(new AppError("Workforce member not found", 404));
   } else {
-    res.status(200).json({ workforce });
+    createRes(workforce, 200, res);
   }
 });
 
@@ -75,6 +69,18 @@ exports.getWorkforceByFilter = asyncWrapper(async (req, res, next) => {
   if (!workforce) {
     return next(new AppError("Workforce members not found", 404));
   } else {
-    res.status(200).json({ workforce });
+    createRes(workforce, 200, res);
   }
+});
+
+exports.deleteWorkforce = asyncWrapper(async (req, res, next) => {
+  const id = req.params.id;
+  const workforce = await Workforce.findOneAndDelete({ _id: id }).exec();
+  if (!workforce) {
+    return res.status(404).json({
+      message: "Workforce member not found",
+    });
+  }
+
+  createRes(workforce, 200, res);
 });

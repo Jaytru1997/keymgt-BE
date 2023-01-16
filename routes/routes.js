@@ -19,6 +19,7 @@ const {
   getWorkforce,
   getAllWorkforce,
   getWorkforceByFilter,
+  deleteWorkforce,
 } = require("../controllers/workforceController");
 
 //AUTH ROUTES
@@ -29,14 +30,16 @@ router.route("/login").post(login);
 router
   .route("/workforce")
   .get(protect, getAllWorkforce)
-  .post(protect, addWorkforce)
-  .patch(protect)
-  .delete(protect, restrictTo(["lp"]));
+  .post(protect, addWorkforce);
 router.route("/workforce/:filter").get(protect, getWorkforceByFilter);
 router
   .route("/workforce/:id/upload-image")
   .put(protect, upload.single("image"), addWorkforceImage);
-router.route("/workforce/:id").get(protect, getWorkforce).patch().delete();
+router
+  .route("/workforce/:id")
+  .get(protect, getWorkforce)
+  .patch()
+  .delete(protect, restrictTo(["lp", "assoc"]), deleteWorkforce);
 
 //SERVICE
 router.route("/services").get().post();
