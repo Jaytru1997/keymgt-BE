@@ -30,7 +30,13 @@ const {
   getServicesByFilter,
 } = require("../controllers/serviceController");
 
-const { addAttendance } = require("../controllers/attendanceController");
+const {
+  addAttendance,
+  clockInWorkforceMember,
+  clockOutWorkforceMember,
+  getAttendance,
+  getAllAttendances,
+} = require("../controllers/attendanceController");
 
 //AUTH ROUTES
 router.route("/register").post(register);
@@ -41,13 +47,12 @@ router
   .route("/workforce")
   .get(protect, getAllWorkforce)
   .post(protect, addWorkforce);
-router.route("/workforce/:filter").get(protect, getWorkforceByFilter);
 router
   .route("/workforce/:id/upload-image")
   .put(protect, upload.single("image"), addWorkforceImage);
 router
-  .route("/workforce/:id")
-  .get(protect, getWorkforce)
+  .route("/workforce/:filter")
+  .get(protect, getWorkforceByFilter)
   .patch()
   .delete(protect, restrictTo(["lp", "assoc"]), deleteWorkforce);
 
@@ -56,15 +61,23 @@ router
   .route("/services")
   .get(protect, getAllServices)
   .post(protect, addService);
-router.route("/services/:filter").get(protect, getServicesByFilter);
 router
-  .route("/service/:id")
-  .get(protect, getService)
+  .route("/service/:filter")
+  .get(protect, getServicesByFilter)
   .patch(protect, editService)
   .delete(protect);
 
 //ATTENDANCE
-router.route("/attendances").get(protect).post(protect, addAttendance);
+router
+  .route("/attendances")
+  .get(protect, getAllAttendances)
+  .post(protect, addAttendance);
+router
+  .route("/attendance/:id")
+  .get(protect, getAttendance)
+  .post(protect)
+  .put(protect, clockInWorkforceMember)
+  .patch(protect, clockOutWorkforceMember);
 
 //ISSUE
 router.route("/issues").get().post();

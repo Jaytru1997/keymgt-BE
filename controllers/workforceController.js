@@ -37,16 +37,15 @@ exports.addWorkforceImage = asyncWrapper(async (req, res, next) => {
   }
 });
 
-exports.getWorkforce = asyncWrapper(async (req, res, next) => {
-  const id = req.params.id;
-  // console.log(id);
-  const workforce = await Workforce.findById(id).exec();
-  if (!workforce) {
-    return next(new AppError("Workforce member not found", 404));
-  } else {
-    createRes(workforce, 200, res);
-  }
-});
+// exports.getWorkforce = asyncWrapper(async (req, res, next) => {
+//   const id = req.params.id;
+//   const workforce = await Workforce.findById(id).exec();
+//   if (!workforce) {
+//     return next(new AppError("Workforce member not found", 404));
+//   } else {
+//     createRes(workforce, 200, res);
+//   }
+// });
 
 exports.getAllWorkforce = asyncWrapper(async (req, res, next) => {
   const workforce = await Workforce.find();
@@ -64,6 +63,7 @@ exports.getWorkforceByFilter = asyncWrapper(async (req, res, next) => {
       { department: filter },
       { heirarchy: filter },
       { title: filter },
+      { _id: filter },
     ],
   });
   if (!workforce) {

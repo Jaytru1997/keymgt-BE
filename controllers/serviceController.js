@@ -29,16 +29,15 @@ exports.editService = asyncWrapper(async (req, res, next) => {
   }
 });
 
-exports.getService = asyncWrapper(async (req, res, next) => {
-  const id = req.params.id;
-  // console.log(id);
-  const service = await Service.findById(id).exec();
-  if (!service) {
-    return next(new AppError("Service member not found", 404));
-  } else {
-    createRes(service, 200, res);
-  }
-});
+// exports.getService = asyncWrapper(async (req, res, next) => {
+//   const id = req.params.id;
+//   const service = await Service.findById(id).exec();
+//   if (!service) {
+//     return next(new AppError("Service member not found", 404));
+//   } else {
+//     createRes(service, 200, res);
+//   }
+// });
 
 exports.getAllServices = asyncWrapper(async (req, res, next) => {
   const service = await Service.find();
@@ -51,7 +50,12 @@ exports.getAllServices = asyncWrapper(async (req, res, next) => {
 exports.getServicesByFilter = asyncWrapper(async (req, res, next) => {
   const filter = req.params.filter;
   const service = await Service.find({
-    $or: [{ title: filter }, { day: filter }, { time: filter }],
+    $or: [
+      { title: filter },
+      { day: filter },
+      { time: filter },
+      { _id: filter },
+    ],
   });
   if (!service) {
     return next(new AppError("Services not found", 404));

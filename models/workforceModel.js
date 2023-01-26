@@ -52,7 +52,10 @@ const workforceSchema = new mongoose.Schema({
     enum: ["Member", "Dept. H", "Group H", "Pastor"],
   },
   tickets: {
-    count: Number,
+    count: {
+      type: Number,
+      default: 0,
+    },
     issues: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -71,11 +74,15 @@ const workforceSchema = new mongoose.Schema({
     duration: Number,
   },
   services: {
-    count: Number,
+    count: {
+      type: Number,
+      default: 0,
+    },
     attendance: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Attendance",
+        unique: true,
       },
     ],
   },
@@ -84,8 +91,6 @@ const workforceSchema = new mongoose.Schema({
 workforceSchema.pre("save", function (next) {
   let initials;
   if (this.heirarchy === "Group H") this.department = "all";
-  this.services.count = 0;
-  this.tickets.count = 0;
   this.middleName !== ""
     ? (initials = `${this.middleName.charAt(0)}.`)
     : (initials = "");
@@ -93,18 +98,20 @@ workforceSchema.pre("save", function (next) {
   next();
 });
 
-// workforceSchema.pre("save", function (next) {
-//   next();
-// });
-
-// workforceSchema.pre("save", function(next){
-//multerImage() will return a url to the save path of user image;
-//   this.image = multerImage();
-// })
 workforceSchema.methods.addImage = async function (image) {
   try {
     this.image = await image;
     return true;
+  } catch (error) {
+    return false, error;
+  }
+};
+
+workforceSchema.methods.clockIn = async function (id) {
+  try {
+    await this.services.attendance.push(id);
+    this.services.count++;
+    this.save({ validateBeforeSave: false });
   } catch (error) {
     return false, error;
   }

@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const winston = require("winston");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -21,12 +22,23 @@ app.use("/public", express.static("public"));
 // Set security HTTP headers
 app.use(helmet());
 
-// MIDDLEWARES
+//ERROR LOGGING MIDDLEWARES
+winston.add(new winston.transports.File({ filename: "logfile.log" }));
 if (
   process.env.NODE_ENV === "development" ||
   process.env.ENVIRONMENT === "local"
 ) {
   app.use(morgan("dev"));
+} else {
+  process.on("uncaughtException", (ex) => {
+    winston.error(ex.message, err);
+    process.exit(1);
+  });
+
+  process.on("unhandledRejection", (ex) => {
+    winston.error(ex.message, err);
+    process.exit(1);
+  });
 }
 
 //limit requests from same ip
