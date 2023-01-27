@@ -36,6 +36,11 @@ const attendanceSchema = new mongoose.Schema({
   ],
 });
 
+attendanceSchema.pre(/^find/, function (next) {
+  this.populate(["present.person", "absent", "clockout.person"]);
+  next();
+});
+
 attendanceSchema.methods.filterWorkforce = async function (array, object, key) {
   let newArray = array.filter((el) => el[key] == object[key]);
   return newArray;

@@ -56,7 +56,7 @@ exports.getServicesByFilter = asyncWrapper(async (req, res, next) => {
       { time: filter },
       { _id: filter },
     ],
-  });
+  }).populate("attendance");
   if (!service) {
     return next(new AppError("Services not found", 404));
   } else if (service.length === 0) {
